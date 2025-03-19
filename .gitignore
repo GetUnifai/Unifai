@@ -1,0 +1,33 @@
+# Ignore everything by default
+*
+!*/
+
+# Then specifically unignore the files and directories we want to include
+
+# Multi-agent directory and its contents
+!/agent/src/multi-agent/
+!/agent/src/multi-agent/**
+!/agent/src/multi-agent/agentSelector.ts
+!/agent/src/multi-agent/chat-endpoint.ts
+!/agent/src/multi-agent/chatWorkflowManager.ts
+!/agent/src/multi-agent/debug-utils.ts
+!/agent/src/multi-agent/eliza-types.ts
+!/agent/src/multi-agent/index.ts
+!/agent/src/multi-agent/responseFormatter.ts
+!/agent/src/multi-agent/types.ts
+
+# MultiAgentChat.tsx component
+!/client/src/components/MultiAgentChat.tsx
+
+# Module loader debug files
+!/scripts/error-handling/module-loader-debug.js
+!/scripts/error-handling/syntax-validator.js
+
+# Make sure to include parent directories structure
+!/agent/
+!/agent/src/
+!/client/
+!/client/src/
+!/client/src/components/
+!/scripts/
+!/scripts/error-handling/
