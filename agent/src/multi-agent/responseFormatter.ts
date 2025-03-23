@@ -176,9 +176,9 @@ export class ResponseFormatter {
     // Get base length limits per agent - refined for character distinctiveness
     // These are not rigid caps but starting points for dynamic adjustment
     const baseLimits = {
-      'Analyst Alex': 350,  // More concise for Alex - data-focused
-      'Curious Clara': 550, // More exploratory for Clara - creative but not rambling
-      'Strategic Sam': 450  // Balanced for Sam - practical but thorough
+      'Analyst Alex': 1200,  // More concise for Alex - data-focused
+      'Curious Clara': 750, // More exploratory for Clara - creative but not rambling
+      'Strategic Sam': 850  // Balanced for Sam - practical but thorough
     };
     
     const userMessage = context?.userMessage || '';
