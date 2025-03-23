@@ -1,4 +1,4 @@
- import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,9 @@ export default function MultiAgentChat() {
   const [message, setMessage] = useState('');
   const [conversation, setConversation] = useState<{ agent: string; message: string }[]>([]);
   const [loading, setLoading] = useState(false);
+  const [sessionId] = useState(() => `session-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`);
+
+
   
   // Fetch agents to display their avatars and names
   const { data: agentsData } = useQuery({
@@ -68,7 +71,8 @@ export default function MultiAgentChat() {
       console.log("[MultiAgentChat] Sending message to API:", message.trim());
       console.log("[MultiAgentChat] Session state:", {
         conversationLength: conversation.length,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        sessionId: sessionId // Log the sessionId for debugging
       });
       const apiUrl = import.meta.env.VITE_API_URL || 'https://app.getunifai.com:3000';
       console.log("[MultiAgentChat] Using API URL:", apiUrl);
@@ -76,7 +80,10 @@ export default function MultiAgentChat() {
       const response = await fetch(`${apiUrl}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: message.trim() })
+        body: JSON.stringify({
+          message: message.trim(),
+          sessionId: sessionId // Include sessionId in the request body
+        })
       });
       
       console.log("[MultiAgentChat] API response status:", response.status);
