@@ -28,6 +28,35 @@ export class AgentSelector {
     console.log(`[AGENT SELECTOR] Selecting for: "${message.substring(0, 30)}..."`);
     
     const messageLower = message.toLowerCase();
+
+    // Add blockchain query detection
+    const solanaAddressRegex = /\b[1-9A-HJ-NP-Za-km-z]{32,44}\b/g;
+    const hasAddress = solanaAddressRegex.test(messageLower);
+    const blockchainKeywords = ['wallet', 'token', 'solana', 'blockchain', 'crypto'];
+    const hasBlockchainKeywords = blockchainKeywords.some(kw => messageLower.includes(kw));
+
+    // If this is a blockchain query, prioritize Alex
+    if (hasAddress || hasBlockchainKeywords) {
+      console.log('[AGENT_SELECTOR] Blockchain query detected:', {
+        hasAddress,
+        hasBlockchainKeywords,
+        matchingKeywords: blockchainKeywords.filter(kw => messageLower.includes(kw))
+      });
+      
+      // Force Alex to be first responder for blockchain queries if available
+      const alexIndex = availableAgents.indexOf('Analyst Alex');
+      if (alexIndex >= 0) {
+        console.log('[AGENT_SELECTOR] Prioritizing Analyst Alex for blockchain query');
+        
+        // Create a new array with Alex first, then the rest
+        const reordered = ['Analyst Alex'];
+        availableAgents.forEach(agent => {
+          if (agent !== 'Analyst Alex') reordered.push(agent);
+        });
+        
+        return reordered;
+      }
+    }
     
     // 1. Check for explicit agent mentions first (direct addressing)
     const mentionedAgents = this.getExplicitlyMentionedAgents(messageLower, availableAgents);
